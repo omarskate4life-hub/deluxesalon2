@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Deluxe Salón 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --gold:#b8912a;--gold2:#d4af57;--gold-soft:rgba(184,145,42,0.10);
+  --gold-border:rgba(184,145,42,0.25);
+  --white:#ffffff;--off:#faf8f4;--card:#ffffff;
+  --text:#1a1510;--muted:#8a7e72;--line:#ede8df;
+  --green:#2e7d32;--blue:#1565c0;--purple:#6a1b9a;--orange:#e65100;
+  --r:14px;--shadow:0 2px 16px rgba(0,0,0,0.07);
+  --font:'Poppins',sans-serif;
+}
+html{font-size:15px;}
+body{font-family:var(--font);background:var(--off);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* ── Layout ── */
+.wrap{max-width:430px;margin:0 auto;padding:0 0 80px;}
+
+/* ── Header ── */
+.hdr{background:var(--white);border-bottom:1px solid var(--line);padding:28px 20px 20px;text-align:center;position:sticky;top:0;z-index:10;box-shadow:0 1px 12px rgba(0,0,0,0.06);}
+.brand{font-size:24px;font-weight:800;letter-spacing:.06em;color:var(--text);}
+.brand em{color:var(--gold);font-style:normal;}
+.divider{width:40px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:8px auto;}
+.tagline{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:500;}
+
+/* ── Tabs ── */
+.tabs{display:flex;gap:6px;padding:14px 16px 0;background:var(--white);border-bottom:1px solid var(--line);}
+.tab{flex:1;padding:10px 0 12px;border:none;background:none;font-family:var(--font);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:.2s;}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* ── Views ── */
+.view{display:none;padding:16px;}
+.view.active{display:block;}
+
+/* ── Catalog ── */
+.cat-wrap{display:flex;flex-direction:column;gap:10px;}
+.cat-card{background:var(--card);border-radius:var(--r);border:1px solid var(--line);overflow:hidden;box-shadow:var(--shadow);}
+.cat-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;cursor:pointer;}
+.cat-name{font-size:14px;font-weight:700;color:var(--text);}
+.cat-badge{font-size:11px;font-weight:600;color:var(--gold);background:var(--gold-soft);padding:3px 10px;border-radius:99px;border:1px solid var(--gold-border);}
+.chev{color:var(--gold);font-size:11px;transition:.2s;margin-left:6px;}
+.cat-card.open .chev{transform:rotate(180deg);}
+.cat-body{display:none;border-top:1px solid var(--line);}
+.cat-card.open .cat-body{display:block;}
+.svc-item{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--line);gap:12px;}
+.svc-item:last-child{border-bottom:none;}
+.svc-n{font-size:13px;font-weight:500;color:var(--text);}
+.svc-p{font-size:13px;font-weight:700;color:var(--gold);white-space:nowrap;}
+
+/* ── Wizard ── */
+.wiz{max-width:430px;}
+.prog{display:flex;gap:4px;justify-content:center;margin-bottom:22px;}
+.d{width:6px;height:6px;border-radius:3px;background:var(--line);transition:.25s;}
+.d.on{background:var(--gold);width:20px;}
+.step{display:none;animation:fIn .2s ease;}
+.step.on{display:block;}
+@keyframes fIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.stitle{font-size:22px;font-weight:700;margin-bottom:4px;}
+.ssub{font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
+
+/* ── Chips ── */
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{padding:9px 16px;border-radius:99px;border:1px solid var(--gold-border);background:var(--white);font-family:var(--font);font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:.15s;}
+.chip.sel{background:var(--gold);color:#fff;border-color:var(--gold);box-shadow:0 2px 10px rgba(184,145,42,0.3);}
+
+/* ── Service cards ── */
+.scard{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 15px;border:1px solid var(--line);border-radius:var(--r);margin-bottom:9px;cursor:pointer;background:var(--white);box-shadow:0 1px 6px rgba(0,0,0,0.04);transition:.15s;}
+.scard.sel{border-color:var(--gold);background:var(--gold-soft);}
+.scard-n{font-size:13.5px;font-weight:600;}
+.scard-m{font-size:11.5px;color:var(--muted);margin-top:2px;}
+.scard-p{font-size:15px;font-weight:700;color:var(--gold);white-space:nowrap;}
+
+/* ── Staff cards ── */
+.pcard{display:flex;align-items:center;gap:13px;padding:13px 15px;border:1px solid var(--line);border-radius:var(--r);margin-bottom:9px;cursor:pointer;background:var(--white);transition:.15s;}
+.pcard.sel{border-color:var(--gold);background:var(--gold-soft);}
+.av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0;}
+.p-name{font-size:14px;font-weight:600;}
+.p-role{font-size:12px;color:var(--muted);}
+
+/* ── Inputs ── */
+.lbl{display:block;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;}
+input[type=date],input[type=text],input[type=password]{
+  width:100%;padding:13px 15px;border-radius:var(--r);border:1.5px solid var(--line);
+  font-family:var(--font);font-size:14px;color:var(--text);background:var(--white);outline:none;
+  box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:.15s;
+}
+input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,145,42,0.10);}
+input::-webkit-calendar-picker-indicator{opacity:.6;}
+
+/* ── Time grid ── */
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.tbtn{padding:12px 4px;text-align:center;border-radius:10px;border:1.5px solid var(--line);background:var(--white);font-family:var(--font);font-size:13px;font-weight:500;color:var(--text);cursor:pointer;transition:.15s;}
+.tbtn.sel{background:var(--gold);color:#fff;border-color:var(--gold);box-shadow:0 2px 8px rgba(184,145,42,0.3);}
+.tbtn:disabled{opacity:.3;text-decoration:line-through;cursor:not-allowed;background:var(--off);}
+.tgrid-hint{font-size:12px;color:var(--muted);margin-top:10px;text-align:center;}
+
+/* ── Payment method ── */
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;}
+.pay-opt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 12px;border:1.5px solid var(--line);border-radius:var(--r);cursor:pointer;background:var(--white);transition:.15s;}
+.pay-opt.sel.efectivo{border-color:var(--green);background:rgba(46,125,50,0.06);}
+.pay-opt.sel.transferencia{border-color:var(--blue);background:rgba(21,101,192,0.06);}
+.pay-opt.sel.tarjeta{border-color:var(--purple);background:rgba(106,27,154,0.06);}
+.pay-icon{font-size:26px;}
+.pay-lbl{font-size:13px;font-weight:600;}
+.pay-note{background:linear-gradient(135deg,var(--gold-soft),rgba(212,175,87,0.08));border:1px solid var(--gold-border);border-radius:var(--r);padding:13px 15px;font-size:13px;color:var(--text);line-height:1.5;margin-top:6px;}
+.pay-note strong{color:var(--gold);}
+
+/* ── Summary ── */
+.sum-card{background:var(--white);border-radius:var(--r);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);}
+.sum-hd{background:linear-gradient(135deg,var(--gold),var(--gold2));padding:16px 18px;}
+.sum-hd-t{font-size:16px;font-weight:700;color:#fff;}
+.sum-row{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid var(--line);font-size:13.5px;gap:10px;}
+.sum-row:last-child{border-bottom:none;}
+.sum-row span:first-child{color:var(--muted);font-size:13px;}
+.sum-row span:last-child{font-weight:600;text-align:right;}
+.sum-pay-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:600;}
+.badge-efectivo{background:rgba(46,125,50,0.1);color:var(--green);}
+.badge-transferencia{background:rgba(21,101,192,0.1);color:var(--blue);}
+.badge-tarjeta{background:rgba(106,27,154,0.1);color:var(--purple);}
+
+/* ── Buttons ── */
+.btn-row{display:flex;gap:10px;margin-top:18px;}
+.btn{flex:1;padding:14px;border-radius:var(--r);font-family:var(--font);font-size:14px;font-weight:700;border:none;cursor:pointer;transition:.15s;}
+.btn-p{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;box-shadow:0 3px 12px rgba(184,145,42,0.3);}
+.btn-p:disabled{opacity:.4;cursor:not-allowed;}
+.btn-s{background:var(--white);border:1.5px solid var(--line);color:var(--muted);}
+
+/* ── Messages ── */
+.msg-err{background:#fff5f5;border:1.5px solid #ffc5c5;color:#c0392b;padding:12px 15px;border-radius:var(--r);font-size:13px;margin-top:12px;line-height:1.5;}
+.msg-ok{background:#f0faf0;border:1.5px solid #a8d8a8;color:#2e7d32;padding:12px 15px;border-radius:var(--r);font-size:13px;margin-top:12px;line-height:1.5;}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(184,145,42,0.3);border-top-color:var(--gold);border-radius:50%;animation:sp .6s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+
+/* ── Success ── */
+.ok-box{text-align:center;padding:30px 16px;}
+.ok-icon{width:64px;height:64px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:28px;color:#fff;box-shadow:0 4px 16px rgba(184,145,42,0.35);}
+
+/* ── Admin ── */
+.adm-gate{padding:40px 20px;text-align:center;}
+.adm-panel{padding:0;}
+.adm-tabs{display:flex;gap:0;background:var(--off);border-radius:10px;padding:3px;margin-bottom:16px;border:1px solid var(--line);}
+.adm-tab{flex:1;padding:9px;border-radius:8px;border:none;background:none;font-family:var(--font);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;}
+.adm-tab.on{background:var(--white);color:var(--gold);box-shadow:0 1px 6px rgba(0,0,0,0.08);}
+.adm-ctrl{display:flex;gap:8px;margin-bottom:14px;}
+.adm-ctrl select,.adm-ctrl input{flex:1;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--white);font-family:var(--font);font-size:13px;color:var(--text);}
+.arow{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:9px;box-shadow:0 1px 6px rgba(0,0,0,0.04);}
+.arow-top{display:flex;align-items:flex-start;gap:10px;}
+.atime{font-size:18px;font-weight:700;color:var(--gold);flex-shrink:0;min-width:52px;}
+.ainfo{flex:1;}
+.asvc{font-size:13.5px;font-weight:600;}
+.ameta{font-size:12px;color:var(--muted);margin-top:2px;}
+.aprice{font-size:15px;font-weight:700;color:var(--gold);}
+.amethod{margin-top:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.method-lbl{font-size:11px;color:var(--muted);font-weight:600;}
+.mpay-badge{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:99px;font-size:12px;font-weight:600;}
+.status-row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+.sbtn{padding:7px 12px;border-radius:99px;border:1.5px solid var(--line);background:var(--off);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);}
+.sbtn.ok{background:rgba(46,125,50,0.1);border-color:rgba(46,125,50,0.3);color:var(--green);}
+.sbtn.no{background:rgba(230,81,0,0.1);border-color:rgba(230,81,0,0.3);color:var(--orange);}
+
+/* ── Contabilidad ── */
+.period-row{display:flex;gap:6px;margin-bottom:16px;}
+.prd{flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--line);background:var(--white);font-family:var(--font);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;}
+.prd.on{background:var(--gold);color:#fff;border-color:var(--gold);}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.sbox{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:14px;box-shadow:0 1px 6px rgba(0,0,0,0.04);}
+.sbox.full{grid-column:1/-1;}
+.slbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;}
+.sval{font-size:22px;font-weight:700;color:var(--gold);}
+.ssub{font-size:11px;color:var(--muted);margin-top:3px;}
+.srow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px;}
+.srow:last-child{border-bottom:none;}
+.mrow{display:flex;align-items:center;gap:8px;}
+
+/* ── Config banner ── */
+#cfgBanner{background:#fffbeb;border:1.5px solid #f0d060;color:#7a5a00;padding:12px 16px;border-radius:var(--r);font-size:13px;margin-bottom:14px;display:none;line-height:1.5;}
+
+/* ── FAB WhatsApp ── */
+.fab{position:fixed;bottom:20px;right:16px;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(18,140,126,0.4);z-index:20;text-decoration:none;}
+.gear{position:fixed;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:var(--white);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;z-index:20;box-shadow:var(--shadow);color:var(--muted);}
+
+/* ── Empty ── */
+.empty{text-align:center;color:var(--muted);font-size:13px;padding:32px 10px;}
+
+@media(max-width:380px){
+  .brand{font-size:21px;}
+  .stitle{font-size:19px;}
+  .pay-grid{grid-template-columns:1fr 1fr;}
+  .tgrid{grid-template-columns:repeat(3,1fr);}
+  .sgrid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <!-- Header -->
+  <div class="hdr">
+    <div class="brand">DELUXE <em>SALÓN</em> 2</div>
+    <div class="divider"></div>
+    <div class="tagline">Manicure · Pedicure · Barbería · Peluquería · Pestañas</div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" id="tCat">Catálogo</button>
+    <button class="tab" id="tAge">Agendar cita</button>
+  </div>
+
+  <!-- Catalog -->
+  <div class="view active" id="vCat">
+    <div id="cfgBanner">⚙️ Falta la URL del Apps Script. Abre el archivo y pega la URL donde dice PEGAR_URL_AQUI.</div>
+    <div class="cat-wrap" id="catWrap"></div>
+  </div>
+
+  <!-- Agendar -->
+  <div class="view" id="vAge">
+    <div class="wiz">
+      <div class="prog" id="prog"></div>
+
+      <div class="step on" data-s="1">
+        <div class="stitle">¿Qué servicio buscas?</div>
+        <div class="ssub">Elige una categoría para empezar</div>
+        <div class="chips" id="catChips"></div>
+      </div>
+
+      <div class="step" data-s="2">
+        <div class="stitle">Elige el servicio</div>
+        <div class="ssub" id="s2sub"></div>
+        <div id="svcList"></div>
+        <div class="btn-row"><button class="btn btn-s" data-bk="1">← Atrás</button></div>
+      </div>
+
+      <div class="step" data-s="3">
+        <div class="stitle">¿Con quién?</div>
+        <div class="ssub">Profesionales disponibles para este servicio</div>
+        <div id="staffList"></div>
+        <div class="btn-row"><button class="btn btn-s" data-bk="2">← Atrás</button></div>
+      </div>
+
+      <div class="step" data-s="4">
+        <div class="stitle">Elige el día</div>
+        <label class="lbl">Fecha</label>
+        <input type="date" id="dateInp">
+        <div class="btn-row">
+          <button class="btn btn-s" data-bk="3">← Atrás</button>
+          <button class="btn btn-p" id="dateBtn">Ver horarios →</button>
+        </div>
+      </div>
+
+      <div class="step" data-s="5">
+        <div class="stitle">Elige la hora</div>
+        <div class="ssub" id="s5sub">Consultando disponibilidad…</div>
+        <div class="tgrid" id="timeGrid"></div>
+        <div class="tgrid-hint">Los horarios tachados ya están ocupados</div>
+        <div class="btn-row"><button class="btn btn-s" data-bk="4">← Atrás</button></div>
+      </div>
+
+      <div class="step" data-s="6">
+        <div class="stitle">Tus datos</div>
+        <label class="lbl">Nombre completo</label>
+        <input type="text" id="nameInp" placeholder="Ej. María García">
+        <div class="btn-row">
+          <button class="btn btn-s" data-bk="5">← Atrás</button>
+          <button class="btn btn-p" id="nameBtn">Continuar →</button>
+        </div>
+      </div>
+
+      <div class="step" data-s="7">
+        <div class="stitle">¿Cómo vas a pagar?</div>
+        <div class="ssub">Elige tu método de pago preferido</div>
+        <div class="pay-grid">
+          <div class="pay-opt efectivo" data-m="efectivo">
+            <span class="pay-icon">💵</span>
+            <span class="pay-lbl">Efectivo</span>
+          </div>
+          <div class="pay-opt transferencia" data-m="transferencia">
+            <span class="pay-icon">🏦</span>
+            <span class="pay-lbl">Transferencia</span>
+          </div>
+          <div class="pay-opt tarjeta" style="grid-column:1/-1;" data-m="tarjeta">
+            <span class="pay-icon">💳</span>
+            <span class="pay-lbl">Tarjeta</span>
+          </div>
+        </div>
+        <div class="pay-note">
+          💡 <strong>Importante:</strong> El pago se realiza <strong>al finalizar el servicio</strong>. No se requiere pago anticipado para reservar tu cita.
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-s" data-bk="6">← Atrás</button>
+          <button class="btn btn-p" id="payBtn" disabled>Revisar cita →</button>
+        </div>
+      </div>
+
+      <div class="step" data-s="8">
+        <div class="stitle">Confirma tu cita</div>
+        <div class="ssub">Revisa que todo esté correcto</div>
+        <div class="sum-card" id="sumCard"></div>
+        <div id="confirmMsg"></div>
+        <div class="btn-row">
+          <button class="btn btn-s" data-bk="7">← Atrás</button>
+          <button class="btn btn-p" id="confirmBtn">✓ Confirmar y enviar</button>
+        </div>
+      </div>
+
+      <div class="step" data-s="9">
+        <div class="ok-box">
+          <div class="ok-icon">✓</div>
+          <div class="stitle">¡Cita agendada!</div>
+          <div class="ssub" id="okText" style="margin-top:8px;"></div>
+          <div class="msg-ok" style="text-align:left;margin-top:16px;">
+            ✅ Tu cita quedó guardada en el calendario del salón.<br>
+            💬 Abre WhatsApp para enviar la confirmación.
+          </div>
+          <a href="#" id="waFallback" style="display:block;text-align:center;margin-top:14px;font-size:13px;color:var(--muted);text-decoration:underline;" target="_blank">Si no se abrió WhatsApp, toca aquí</a>
+          <div class="btn-row"><button class="btn btn-p" id="restartBtn">Agendar otra cita</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin -->
+  <div class="view" id="vAdm">
+    <div class="adm-gate" id="admGate">
+      <div class="stitle" style="text-align:center;margin-bottom:6px;">Panel del equipo</div>
+      <div class="ssub" style="text-align:center;margin-bottom:18px;">Código de acceso requerido</div>
+      <input type="password" id="pinInp" placeholder="Código" style="max-width:160px;margin:0 auto 12px;display:block;text-align:center;">
+      <button class="btn btn-p" id="pinBtn" style="max-width:160px;margin:0 auto;display:block;">Entrar</button>
+      <div id="pinMsg"></div>
+    </div>
+    <div id="admPanel" style="display:none;">
+      <div class="adm-tabs">
+        <button class="adm-tab on" id="tabAg">📅 Agenda</button>
+        <button class="adm-tab" id="tabCo">💰 Contabilidad</button>
+      </div>
+      <div id="agView">
+        <div class="adm-ctrl">
+          <input type="date" id="admDate">
+          <select id="admStaff"><option value="all">Todos</option></select>
+        </div>
+        <div id="admList"></div>
+      </div>
+      <div id="coView" style="display:none;">
+        <div class="period-row">
+          <button class="prd on" data-p="day">Hoy</button>
+          <button class="prd" data-p="week">Semana</button>
+          <button class="prd" data-p="month">Mes</button>
+        </div>
+        <div id="coContent"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FABs -->
+<a class="fab" href="https://wa.me/573226391407?text=Hola%20Deluxe%20Sal%C3%B3n%202!" target="_blank">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+</a>
+<div class="gear" id="gearBtn">⚙</div>
+
+<script>
+(function(){
+'use strict';
+
+// ═══════════════════════════════════════════
+// ⬇ PEGA AQUÍ LA URL DE TU APPS SCRIPT
+const SCRIPT_URL = "PEGAR_URL_AQUI";
+// ═══════════════════════════════════════════
+const PHONE = "573226391407", PIN = "2580";
+const OS = 9*60, OE = 19*60+30;
+
+const STAFF = [
+  {id:'elber',name:'Elber',role:'Barbero'},
+  {id:'melvin',name:'Melvin',role:'Barbero'},
+  {id:'sofia',name:'Sofía',role:'Manicurista'},
+  {id:'andrea',name:'Andrea',role:'Manicurista'},
+  {id:'daniela',name:'Daniela',role:'Estilista'}
+];
+const CS = {
+  'Barbería':['elber','melvin'],'Manicure':['sofia','andrea'],
+  'Pedicure':['sofia','andrea'],'Retiro':['sofia','andrea'],
+  'Peluquería':['daniela'],'Pestañas':['daniela'],
+  'Depilación Facial':['daniela'],'Cejas':['daniela'],
+  'Facial':['daniela'],'Maquillaje':['daniela']
+};
+const CATS = ['Barbería','Manicure','Pedicure','Retiro','Peluquería','Pestañas','Depilación Facial','Cejas','Facial','Maquillaje'];
+const SVCS = [
+  {c:'Barbería',n:'Corte de caballero',p:30000,d:30},{c:'Barbería',n:'Corte y barba tradicional',p:50000,d:45},{c:'Barbería',n:'Corte de niño',p:30000,d:30},{c:'Barbería',n:'Barba con vapor',p:23000,d:25},{c:'Barbería',n:'Barba tradicional',p:20000,d:20},{c:'Barbería',n:'Cejas con cuchilla',p:10000,d:10},
+  {c:'Manicure',n:'Diseño de uña',p:2000,d:15},{c:'Manicure',n:'Solo limpieza manos',p:18000,d:20},{c:'Manicure',n:'Manicure tradicional',p:24000,d:45},{c:'Manicure',n:'Manicure secado rápido',p:35000,d:45},{c:'Manicure',n:'Manicure semipermanente',p:58000,d:60},{c:'Manicure',n:'Uñas press on con esmaltado semipermanente',p:110000,d:90},{c:'Manicure',n:'Uñas acrílicas con esmaltado semipermanente',p:170000,d:120},{c:'Manicure',n:'Base rubber manos',p:20000,d:30},{c:'Manicure',n:'Capping uñas',p:30000,d:45},{c:'Manicure',n:'Dippind uñas',p:30000,d:45},{c:'Manicure',n:'Recubrimiento en acrílico (uñas naturales)',p:100000,d:90},{c:'Manicure',n:'Recubrimiento en polygel (uñas naturales)',p:110000,d:90},{c:'Manicure',n:'Recubrimiento en techgel (uñas naturales)',p:85000,d:90},{c:'Manicure',n:'Cambio de esmalte tradicional manos',p:18000,d:30},{c:'Manicure',n:'Cambio de esmalte secado rápido manos',p:25000,d:30},{c:'Manicure',n:'Mantenimiento acrílico (una uña)',p:12000,d:20},{c:'Manicure',n:'Mantenimiento polygel (una uña)',p:12000,d:20},{c:'Manicure',n:'Mantenimiento techgel (una uña)',p:10000,d:20},
+  {c:'Pedicure',n:'Solo limpieza pies',p:24000,d:30},{c:'Pedicure',n:'Pedicura tradicional',p:29000,d:45},{c:'Pedicure',n:'Pedicura secado rápido',p:55000,d:45},{c:'Pedicure',n:'Pedicura semipermanente',p:68000,d:60},{c:'Pedicure',n:'Base rubber pies',p:24000,d:30},{c:'Pedicure',n:'Cambio de esmalte tradicional',p:20000,d:30},{c:'Pedicure',n:'Cambio de esmalte secado rápido',p:28000,d:30},
+  {c:'Retiro',n:'Capping, dippin o rubber',p:25000,d:30},{c:'Retiro',n:'Acrílicas, polygel o press on',p:25000,d:30},{c:'Retiro',n:'Semipermanente con más servicios',p:10000,d:15},{c:'Retiro',n:'Semipermanente con otro servicio',p:15000,d:15},
+  {c:'Peluquería',n:'Corte dama',p:30000,d:30},{c:'Peluquería',n:'Peinado para toda ocasión',p:30000,d:45},{c:'Peluquería',n:'Ondas',p:20000,d:30},{c:'Peluquería',n:'Blower con planchado',p:40000,d:45},{c:'Peluquería',n:'Blower solo cepillado',p:25000,d:30},{c:'Peluquería',n:'Planchado',p:25000,d:30},{c:'Peluquería',n:'Trenzas',p:15000,d:30},{c:'Peluquería',n:'Amoniacidos (alisado)',p:200000,d:180},{c:'Peluquería',n:'Retiro de aminoácidos',p:0,d:30},{c:'Peluquería',n:'Color base',p:140000,d:120},{c:'Peluquería',n:'Balayage',p:250000,d:180},{c:'Peluquería',n:'Shampoo',p:10000,d:15},{c:'Peluquería',n:'Masajes capilares al frío',p:25000,d:20},{c:'Peluquería',n:'Extensiones punto a punto',p:500000,d:240},
+  {c:'Pestañas',n:'Pestañas de anime',p:180000,d:120},{c:'Pestañas',n:'Pestañas técnica whispy',p:180000,d:120},{c:'Pestañas',n:'Lifting de pestañas',p:100000,d:60},{c:'Pestañas',n:'Pestañas efecto foxy',p:180000,d:120},{c:'Pestañas',n:'Pestañas volumen griego',p:180000,d:120},{c:'Pestañas',n:'Pestañas técnica hawaiana',p:160000,d:120},{c:'Pestañas',n:'Clásica con efecto pestañina',p:160000,d:90},{c:'Pestañas',n:'Técnica clásica',p:140000,d:90},{c:'Pestañas',n:'Pestañas punto a punto',p:70000,d:60},{c:'Pestañas',n:'Pestañas efecto mojado',p:160000,d:120},{c:'Pestañas',n:'Pestañas efecto volumen 3D',p:170000,d:120},{c:'Pestañas',n:'Pestañas efecto híbrido',p:190000,d:150},{c:'Pestañas',n:'Pestañas efecto ruso',p:210000,d:150},{c:'Pestañas',n:'Retiro de pestañas',p:30000,d:30},
+  {c:'Depilación Facial',n:'Bigote (bozo) con hilo',p:16000,d:15},{c:'Depilación Facial',n:'Bigote (bozo) en cera',p:20000,d:15},{c:'Depilación Facial',n:'Barbilla con cera',p:12000,d:15},{c:'Depilación Facial',n:'Orejas con cera',p:25000,d:15},{c:'Depilación Facial',n:'Nariz con cera',p:20000,d:15},
+  {c:'Cejas',n:'Laminado lifting de cejas',p:12000,d:30},{c:'Cejas',n:'Cejas con henna sombreado',p:25000,d:30},{c:'Cejas',n:'Diseño de cejas con hilo',p:25000,d:20},{c:'Cejas',n:'Diseño de cejas con cera',p:20000,d:20},
+  {c:'Facial',n:'Limpieza facial y hidratación facial',p:100000,d:60},
+  {c:'Maquillaje',n:'Maquillaje (sin pestañas)',p:80000,d:60},{c:'Maquillaje',n:'Maquillaje con pestañas',p:90000,d:75}
+];
+
+// helpers
+const cfg = SCRIPT_URL && SCRIPT_URL !== 'PEGAR_URL_AQUI';
+if(!cfg) document.getElementById('cfgBanner').style.display='block';
+const $ = id => document.getElementById(id);
+function fp(n){return n===0?'Gratis':'$ '+n.toLocaleString('es-CO');}
+function t2m(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
+function m2t(m){return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');}
+const DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+function fd(iso){const[y,m,d]=iso.split('-').map(Number);const dt=new Date(y,m-1,d);return DIAS[dt.getDay()]+' '+d+' de '+MES[m-1]+' de '+y;}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function free(busy,s,dur){const e=s+dur;return!busy.some(b=>{const bs=t2m(b.startTime),be=bs+b.duration;return s<be&&bs<e;});}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function mbadge(m){const map={efectivo:['badge-efectivo','💵 Efectivo'],transferencia:['badge-transferencia','🏦 Transferencia'],tarjeta:['badge-tarjeta','💳 Tarjeta']};const v=map[m]||['',''];return v[0]?`<span class="mpay-badge ${v[0]}">${v[1]}</span>`:'';}
+async function api(p){if(!cfg)throw new Error('NO_CFG');const r=await fetch(SCRIPT_URL+'?'+new URLSearchParams(p));return r.json();}
+
+// tabs
+const tCat=$('tCat'),tAge=$('tAge'),vCat=$('vCat'),vAge=$('vAge'),vAdm=$('vAdm');
+function showV(v){[vCat,vAge,vAdm].forEach(x=>x.classList.remove('active'));tCat.classList.remove('active');tAge.classList.remove('active');v.classList.add('active');}
+tCat.onclick=()=>{showV(vCat);tCat.classList.add('active');};
+tAge.onclick=()=>{showV(vAge);tAge.classList.add('active');};
+$('gearBtn').onclick=()=>showV(vAdm);
+
+// catalog
+(()=>{
+  const w=$('catWrap'); w.innerHTML='';
+  CATS.forEach(cat=>{
+    const items=SVCS.filter(s=>s.c===cat);
+    const el=document.createElement('div'); el.className='cat-card';
+    el.innerHTML=`<div class="cat-head"><span class="cat-name">${cat}</span><div style="display:flex;align-items:center;gap:6px"><span class="cat-badge">${items.length}</span><span class="chev">▾</span></div></div><div class="cat-body">${items.map(it=>`<div class="svc-item"><span class="svc-n">${it.n}</span><span class="svc-p">${fp(it.p)}</span></div>`).join('')}</div>`;
+    el.querySelector('.cat-head').onclick=()=>el.classList.toggle('open');
+    w.appendChild(el);
+  });
+})();
+
+// wizard
+const st={cat:null,svc:null,staff:null,date:null,time:null,name:'',payment:null};
+let cs=1; const TOTAL=8;
+function dots(){let h='';for(let i=1;i<=TOTAL;i++)h+=`<div class="d${i===cs?' on':''}"></div>`;$('prog').innerHTML=h;}
+function goS(n){cs=n;document.querySelectorAll('.step').forEach(s=>s.classList.toggle('on',Number(s.dataset.s)===n));dots();window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('[data-bk]').forEach(b=>b.onclick=()=>goS(Number(b.dataset.bk)));
+
+// step 1
+CATS.forEach(cat=>{const c=document.createElement('button');c.className='chip';c.textContent=cat;c.onclick=()=>{st.cat=cat;document.querySelectorAll('#catChips .chip').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');rSvcs();$('s2sub').textContent=cat;goS(2);};$('catChips').appendChild(c);});
+
+// step 2
+function rSvcs(){const l=$('svcList');l.innerHTML='';SVCS.filter(s=>s.c===st.cat).forEach(s=>{const c=document.createElement('div');c.className='scard';c.innerHTML=`<div><div class="scard-n">${s.n}</div><div class="scard-m">Aprox. ${s.d} min</div></div><div class="scard-p">${fp(s.p)}</div>`;c.onclick=()=>{st.svc=s;document.querySelectorAll('#svcList .scard').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');rStaff();goS(3);};l.appendChild(c);});}
+
+// step 3
+function rStaff(){const l=$('staffList');l.innerHTML='';(CS[st.cat]||[]).forEach(id=>{const p=STAFF.find(x=>x.id===id);if(!p)return;const c=document.createElement('div');c.className='pcard';c.innerHTML=`<div class="av">${p.name[0]}</div><div><div class="p-name">${p.name}</div><div class="p-role">${p.role}</div></div>`;c.onclick=()=>{st.staff=p;document.querySelectorAll('#staffList .pcard').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');const di=$('dateInp');di.min=today();if(!di.value)di.value=today();goS(4);};l.appendChild(c);});}
+
+// step 4
+$('dateBtn').onclick=async()=>{const di=$('dateInp');if(!di.value)return;st.date=di.value;goS(5);$('s5sub').innerHTML='<span class="spin"></span>Consultando disponibilidad…';$('timeGrid').innerHTML='';try{const d=await api({action:'availability',staffId:st.staff.id,date:st.date});if(!d.ok)throw new Error(d.error);$('s5sub').textContent=st.staff.name+' · '+fd(st.date);rTG(d.busy||[]);}catch(e){if(e.message==='NO_CFG'){$('s5sub').textContent='⚠ Conecta el Apps Script para ver disponibilidad real.';rTG([]);}else $('s5sub').innerHTML='<span style="color:#c0392b">Error al cargar horarios. Intenta de nuevo.</span>';}};
+
+// step 5 grid
+function rTG(busy){const g=$('timeGrid');g.innerHTML='';let any=false;for(let m=OS;m<=OE-30;m+=30){const fits=(m+st.svc.d)<=OE,ok=fits&&free(busy,m,st.svc.d);if(ok)any=true;const b=document.createElement('button');b.className='tbtn';b.textContent=m2t(m);b.disabled=!ok;if(ok)b.onclick=()=>{st.time=m2t(m);document.querySelectorAll('#timeGrid .tbtn').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');goS(6);};g.appendChild(b);}if(!any){const n=document.createElement('div');n.style.cssText='grid-column:1/-1;text-align:center;padding:20px 0;color:var(--muted);font-size:13px;';n.textContent='No hay cupos con '+st.staff.name+' este día. Elige otra fecha.';g.appendChild(n);}}
+
+// step 6
+$('nameBtn').onclick=()=>{const v=$('nameInp').value.trim();if(!v){$('nameInp').style.borderColor='#ffc5c5';return;}st.name=v;goS(7);};
+
+// step 7 payment
+document.querySelectorAll('.pay-opt').forEach(el=>{el.onclick=()=>{document.querySelectorAll('.pay-opt').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');st.payment=el.dataset.m;$('payBtn').disabled=false;};});
+$('payBtn').onclick=()=>{if(!st.payment)return;rSum();goS(8);};
+
+// step 8 summary
+function rSum(){
+  const pmap={efectivo:'💵 Efectivo',transferencia:'🏦 Transferencia',tarjeta:'💳 Tarjeta'};
+  $('sumCard').innerHTML=`
+    <div class="sum-hd"><div class="sum-hd-t">Resumen de tu cita</div></div>
+    <div class="sum-row"><span>Servicio</span><span>${esc(st.svc.n)}</span></div>
+    <div class="sum-row"><span>Profesional</span><span>${st.staff.name}</span></div>
+    <div class="sum-row"><span>Fecha</span><span>${fd(st.date)}</span></div>
+    <div class="sum-row"><span>Hora</span><span>${st.time}</span></div>
+    <div class="sum-row"><span>Nombre</span><span>${esc(st.name)}</span></div>
+    <div class="sum-row"><span>Valor</span><span>${fp(st.svc.p)}</span></div>
+    <div class="sum-row"><span>Método de pago</span><span><span class="sum-pay-badge badge-${st.payment}">${pmap[st.payment]||st.payment}</span></span></div>
+    <div class="sum-row" style="background:rgba(184,145,42,0.04);"><span style="font-size:12px;color:var(--muted);">⏰ Recuerda</span><span style="font-size:12px;font-weight:500;">Pago al finalizar el servicio</span></div>`;
+  $('confirmMsg').innerHTML='';
+}
+
+$('confirmBtn').onclick=async()=>{
+  const btn=$('confirmBtn'),mb=$('confirmMsg');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>Guardando…';mb.innerHTML='';
+  try{
+    const d=await api({action:'book',staffId:st.staff.id,staffName:st.staff.name,date:st.date,startTime:st.time,duration:st.svc.d,service:st.svc.n,category:st.cat,clientName:st.name,price:st.svc.p,paymentMethod:st.payment});
+    if(!d.ok){
+      if(d.error==='SLOT_TAKEN'){mb.innerHTML='<div class="msg-err">Ese horario se acaba de ocupar. Por favor elige otra hora.</div>';const d2=await api({action:'availability',staffId:st.staff.id,date:st.date});rTG(d2.busy||[]);goS(5);}
+      else throw new Error(d.error);
+      btn.disabled=false;btn.textContent='✓ Confirmar y enviar';return;
+    }
+    const pmap={efectivo:'💵 Efectivo',transferencia:'🏦 Transferencia',tarjeta:'💳 Tarjeta'};
+    const txt=`Hola Deluxe Salón 2! Quiero confirmar mi cita:\n\n✂ Servicio: ${st.svc.n}\n👤 Profesional: ${st.staff.name}\n📅 Fecha: ${fd(st.date)}\n⏰ Hora: ${st.time}\n🙋 Nombre: ${st.name}\n💰 Valor: ${fp(st.svc.p)}\n${pmap[st.payment]||st.payment} (pago al terminar)`;
+    const wa='https://wa.me/'+PHONE+'?text='+encodeURIComponent(txt);
+    $('waFallback').href=wa;
+    $('okText').textContent=st.svc.n+' con '+st.staff.name+' · '+fd(st.date)+' a las '+st.time;
+    window.open(wa,'_blank');goS(9);
+  }catch(e){
+    if(e.message==='NO_CFG'){
+      const pmap={efectivo:'💵 Efectivo',transferencia:'🏦 Transferencia',tarjeta:'💳 Tarjeta'};
+      const txt=`Hola Deluxe Salón 2! Quiero confirmar mi cita:\n\n✂ Servicio: ${st.svc.n}\n👤 Profesional: ${st.staff.name}\n📅 Fecha: ${fd(st.date)}\n⏰ Hora: ${st.time}\n🙋 Nombre: ${st.name}\n💰 Valor: ${fp(st.svc.p)}\n${pmap[st.payment]||st.payment} (pago al terminar)`;
+      const wa='https://wa.me/'+PHONE+'?text='+encodeURIComponent(txt);
+      $('waFallback').href=wa;$('okText').textContent='Confirma por WhatsApp.';window.open(wa,'_blank');goS(9);
+    }else mb.innerHTML='<div class="msg-err">No se pudo guardar la cita. Verifica tu conexión.</div>';
+  }
+  btn.disabled=false;btn.textContent='✓ Confirmar y enviar';
+};
+
+$('restartBtn').onclick=()=>{Object.assign(st,{cat:null,svc:null,staff:null,date:null,time:null,name:'',payment:null});document.querySelectorAll('.chip,.scard,.pcard,.tbtn,.pay-opt').forEach(el=>el.classList.remove('sel','on'));$('payBtn').disabled=true;$('dateInp').value='';goS(1);};
+goS(1);
+
+// ── ADMIN ──
+$('pinBtn').onclick=()=>{
+  if($('pinInp').value===PIN){
+    $('admGate').style.display='none';$('admPanel').style.display='block';
+    const sel=$('admStaff');STAFF.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.name+' ('+p.role+')';sel.appendChild(o);});
+    $('admDate').value=today();loadAg();
+  }else $('pinMsg').innerHTML='<div class="msg-err" style="margin-top:12px;">Código incorrecto.</div>';
+};
+
+$('tabAg').onclick=()=>{$('tabAg').classList.add('on');$('tabCo').classList.remove('on');$('agView').style.display='block';$('coView').style.display='none';};
+$('tabCo').onclick=()=>{$('tabCo').classList.add('on');$('tabAg').classList.remove('on');$('coView').style.display='block';$('agView').style.display='none';loadCo('day');};
+$('admDate').onchange=loadAg;$('admStaff').onchange=loadAg;
+
+async function loadAg(){
+  const date=$('admDate').value,sf=$('admStaff').value,list=$('admList');
+  list.innerHTML='<div class="empty"><span class="spin"></span>Cargando citas…</div>';
+  if(!cfg){list.innerHTML='<div class="empty">Conecta el Apps Script para ver las citas.</div>';return;}
+  try{
+    const targets=sf==='all'?STAFF:STAFF.filter(s=>s.id===sf);
+    let rows=[];
+    for(const p of targets){const d=await api({action:'availability',staffId:p.id,date});if(d.ok)(d.busy||[]).forEach(b=>rows.push({...b,staffId:p.id,staffName:p.name}));}
+    rows.sort((a,b)=>t2m(a.startTime)-t2m(b.startTime));
+    if(!rows.length){list.innerHTML='<div class="empty">No hay citas este día. ☀</div>';return;}
+    list.innerHTML='';
+    rows.forEach(b=>{
+      const row=document.createElement('div');row.className='arow';
+      const payM=b.paymentMethod&&b.paymentMethod!=='no especificado'?mbadge(b.paymentMethod):'<span style="color:var(--muted);font-size:12px;">Sin método registrado</span>';
+      row.innerHTML=`<div class="arow-top"><div class="atime">${b.startTime}</div><div class="ainfo"><div class="asvc">${esc(b.service||'Cita')}</div><div class="ameta">${esc(b.clientName||'')} · ${b.staffName}</div></div><div class="aprice">${fp(b.price||0)}</div></div><div class="amethod"><span class="method-lbl">Pago:</span>${payM}</div><div class="status-row"><button class="sbtn" data-s="pagado">✓ Confirmar pago</button><button class="sbtn" data-s="nopresento">✗ No asistió</button></div>`;
+      row.querySelectorAll('[data-s]').forEach(sb=>{sb.onclick=async()=>{const st2=sb.dataset.s;row.querySelectorAll('[data-s]').forEach(x=>{x.classList.remove('ok','no');});sb.classList.add(st2==='pagado'?'ok':'no');if(cfg){try{await api({action:'updatePayment',staffId:b.staffId,date,startTime:b.startTime,status:st2});}catch(e){}}};});
+      list.appendChild(row);
+    });
+  }catch(e){list.innerHTML='<div class="msg-err">Error al cargar. Intenta de nuevo.</div>';}
+}
+
+document.querySelectorAll('.prd').forEach(b=>{b.onclick=()=>{document.querySelectorAll('.prd').forEach(x=>x.classList.remove('on'));b.classList.add('on');loadCo(b.dataset.p);};});
+
+function getRange(p){const n=new Date(),y=n.getFullYear(),m=n.getMonth(),d=n.getDate();if(p==='day')return{from:today(),to:today()};if(p==='week'){const day=n.getDay(),mo=new Date(y,m,d-(day===0?6:day-1)),su=new Date(y,m,d+(day===0?0:7-day));return{from:mo.toISOString().slice(0,10),to:su.toISOString().slice(0,10)};}return{from:new Date(y,m,1).toISOString().slice(0,10),to:new Date(y,m+1,0).toISOString().slice(0,10)};}
+
+async function loadCo(period){
+  const cc=$('coContent');cc.innerHTML='<div class="empty"><span class="spin"></span>Calculando…</div>';
+  const{from,to}=getRange(period);
+  let pays=[];
+  if(cfg){try{const d=await api({action:'getPayments',from,to});if(d.ok)pays=d.payments||[];}catch(e){}}
+  const pagados=pays.filter(p=>String(p['Estado']||'').toLowerCase()==='pagado'||String(p['Estado']||'').toLowerCase()==='pendiente');
+  const total=pagados.reduce((s,p)=>s+parseInt(p['Valor']||0),0);
+  const byM={efectivo:0,transferencia:0,tarjeta:0};
+  pagados.forEach(p=>{const m=String(p['Método de pago']||'').toLowerCase();if(byM[m]!==undefined)byM[m]+=parseInt(p['Valor']||0);});
+  const byS={};
+  pagados.forEach(p=>{const n=p['Profesional']||'';if(!byS[n])byS[n]=0;byS[n]+=parseInt(p['Valor']||0);});
+  const pl={day:'hoy',week:'esta semana',month:'este mes'}[period];
+  const staffRows=Object.entries(byS).map(([n,v])=>`<div class="srow"><span>${esc(n)}</span><span style="font-weight:700;color:var(--gold);">${fp(v)}</span></div>`).join('')||'<div style="color:var(--muted);font-size:13px;padding:8px 0;">Sin datos aún</div>';
+  cc.innerHTML=`
+    <div class="sgrid">
+      <div class="sbox full"><div class="slbl">💰 Total ingresos ${pl}</div><div class="sval">${fp(total)}</div><div class="ssub">${pagados.length} servicios · ${from===to?fd(from):'Del '+fd(from)+' al '+fd(to)}</div></div>
+      <div class="sbox"><div class="slbl">💵 Efectivo</div><div class="sval" style="font-size:18px;">${fp(byM.efectivo)}</div></div>
+      <div class="sbox"><div class="slbl">🏦 Transferencia</div><div class="sval" style="font-size:18px;">${fp(byM.transferencia)}</div></div>
+      <div class="sbox full"><div class="slbl">💳 Tarjeta</div><div class="sval" style="font-size:18px;">${fp(byM.tarjeta)}</div></div>
+      <div class="sbox full"><div class="slbl">👤 Por profesional</div>${staffRows}</div>
+    </div>`;
+  if(!cfg)cc.innerHTML+='<div class="empty" style="margin-top:0;">Conecta el Apps Script para ver los datos reales.<br>Los totales se calculan desde Google Sheets.</div>';
+}
+
+})();
+</script>
+</body>
+</html>
